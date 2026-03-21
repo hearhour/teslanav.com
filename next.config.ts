@@ -1,8 +1,16 @@
 import type { NextConfig } from "next";
 
+const shutdownRaw = process.env.NEXT_PUBLIC_PROJECT_SHUTDOWN;
+const isProjectShutdown =
+  !shutdownRaw || !["0", "false", "off", "no"].includes(shutdownRaw.trim().toLowerCase());
+
 const nextConfig: NextConfig = {
   /* config options here */
   async rewrites() {
+    if (isProjectShutdown) {
+      return [];
+    }
+
     return [
       // PostHog rewrites
       {

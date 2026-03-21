@@ -10,6 +10,7 @@ import { RouteSelector } from "@/components/RouteSelector";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useWazeAlerts } from "@/hooks/useWazeAlerts";
 import { useSpeedCameras } from "@/hooks/useSpeedCameras";
+import { PROJECT_SHUTDOWN_ENABLED, PROJECT_SHUTDOWN_MESSAGE } from "@/lib/shutdown";
 import type { MapBounds } from "@/types/waze";
 import type { RouteData, RoutesResponse } from "@/types/route";
 import Image from "next/image";
@@ -48,6 +49,14 @@ function formatDistance(meters: number): string {
 }
 
 export default function Home() {
+  if (PROJECT_SHUTDOWN_ENABLED) {
+    return <ShutdownHome />;
+  }
+
+  return <LiveHome />;
+}
+
+function LiveHome() {
   // Use lazy initialization to read from localStorage immediately
   // This ensures the map initializes with the correct theme before first render
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -1702,6 +1711,36 @@ export default function Home() {
           </div>
         </div>
       )}
+    </main>
+  );
+}
+
+function ShutdownHome() {
+  return (
+    <main className="flex min-h-screen w-full items-center justify-center bg-neutral-950 px-6 py-12 text-white">
+      <div className="w-full max-w-3xl rounded-2xl border border-white/10 bg-white/[0.03] p-8 shadow-2xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-400">
+          TeslaNav Shutdown Notice
+        </p>
+        <h1 className="mt-3 text-3xl font-bold sm:text-4xl">TeslaNav is currently offline</h1>
+        <p className="mt-6 text-base leading-7 text-neutral-200">{PROJECT_SHUTDOWN_MESSAGE}</p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a
+            href="https://github.com/R44VC0RP/teslanav.com"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
+          >
+            View on GitHub
+          </a>
+          <a
+            href="mailto:ryan@teslanav.com"
+            className="rounded-lg border border-blue-400/40 bg-blue-500/20 px-4 py-2 text-sm font-medium text-blue-100 transition-colors hover:bg-blue-500/30"
+          >
+            Email Ryan
+          </a>
+        </div>
+      </div>
     </main>
   );
 }
