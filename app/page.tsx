@@ -1722,7 +1722,7 @@ function ShutdownHome() {
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-400">
           TeslaNav Shutdown Notice
         </p>
-        <h1 className="mt-3 text-3xl font-bold sm:text-4xl">TeslaNav is currently offline</h1>
+        <h1 className="mt-3 text-3xl font-bold sm:text-4xl">TeslaNav has been shutdown</h1>
         <p className="mt-6 text-base leading-7 text-neutral-200">{PROJECT_SHUTDOWN_MESSAGE}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
